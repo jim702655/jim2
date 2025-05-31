@@ -7,20 +7,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1 class="logo"><a href="index.html" style="color: #004080; text-decoration: none;">CPD Nurse</a></h1>
-      <nav>
-        <ul class="nav">
-          <li><a href="courses.html">Courses</a></li>
-          <li><a href="register.html">Register Now</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  
+   <header id="site-header"></header>
 
+<script>
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('site-header').innerHTML = data;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+</script>
+  
   <main class="container">
     <section>
       <h2>About CPD Nurse</h2>
