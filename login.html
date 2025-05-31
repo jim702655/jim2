@@ -1,34 +1,113 @@
-<div id="auth-container" style="max-width:400px; margin:auto; padding:20px;">
-  <h2>Login or Register</h2>
-  <input id="email" type="email" placeholder="Email" /><br/><br/>
-  <input id="password" type="password" placeholder="Password" /><br/><br/>
-  <button id="login-btn">Login</button>
-  <button id="register-btn">Register</button>
-  <p id="auth-message"></p>
-</div>
 
-<script>
-  const emailInput = document.getElementById('email');
-  const passwordInput = document.getElementById('password');
-  const loginBtn = document.getElementById('login-btn');
-  const registerBtn = document.getElementById('register-btn');
-  const authMessage = document.getElementById('auth-message');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - CPD Courses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      padding: 2rem;
+      text-align: center;
+    }
 
-  loginBtn.onclick = () => {
-    auth.signInWithEmailAndPassword(emailInput.value, passwordInput.value)
-      .then(() => { 
-        authMessage.textContent = 'Login successful!';
-        window.location.href = 'courses.html'; // redirect to courses page
-      })
-      .catch(e => authMessage.textContent = e.message);
-  };
+    .login-container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 
-  registerBtn.onclick = () => {
-    auth.createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
-      .then(() => { 
-        authMessage.textContent = 'Registration successful!';
-        window.location.href = 'courses.html';
-      })
-      .catch(e => authMessage.textContent = e.message);
-  };
-</script>
+    input {
+      width: 90%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.8rem 2rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      margin-top: 1rem;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>CPD Course Login</h2>
+    
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+
+    <button onclick="login()">Login</button>
+    <button onclick="register()">Register</button>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Config -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-gLtVwwRsZQWpQXhxn0COuJuIg1G78R0",
+      authDomain: "cpd-course-45e0d.firebaseapp.com",
+      projectId: "cpd-course-45e0d",
+      storageBucket: "cpd-course-45e0d.firebasestorage.app",
+      messagingSenderId: "647449958255",
+      appId: "1:647449958255:web:c51685578ea93bef3bfa9a",
+      measurementId: "G-GVPSZNKBM6"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(user => {
+          window.location.href = 'courses.html';
+        })
+        .catch(error => {
+          document.getElementById('message').innerText = error.message;
+        });
+    }
+
+    function register() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(user => {
+          window.location.href = 'courses.html';
+        })
+        .catch(error => {
+          document.getElementById('message').innerText = error.message;
+        });
+    }
+  </script>
+</body>
+</html>
